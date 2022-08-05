@@ -7,6 +7,11 @@ export class DeletePostService {
     if (!id) {
       throw new Error('an id is necessary to delete the post')
     }
+    const deletePost = await this.postRepository.findOne(id)
+
+    if(!deletePost){
+      throw new Error('this post doesn`t exist')
+    }
 
     await this.postRepository.deleteOne(id)
   }

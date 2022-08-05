@@ -1,5 +1,4 @@
 import { IPostRepository } from '../repositories/interfaces/IPostRepository'
-import { IUsersRepository } from '../repositories/interfaces/IUserRepository'
 
 export class CreatePostService {
   constructor(
@@ -14,7 +13,7 @@ export class CreatePostService {
     const existPost = await this.postRepository.findOne(title)
 
     if (existPost) {
-      throw new Error('this post already exist')
+      throw new Error('this post already exist, has to be a different title')
     }
 
     const newPost = await this.postRepository.create(title, content, author)

@@ -11,3 +11,4 @@ app.use(userRoutes)
 app.listen(process.env.PORT, () => {
   console.log('server running')
 })
+  

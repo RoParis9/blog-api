@@ -4,6 +4,12 @@ export class UpdatePostService {
   constructor(private postRepository: IPostRepository) {}
 
   async execute(title: string, content: string) {
+    const post = this.postRepository.findOne(title)
+    
+    if(!post){
+      throw new Error('Post not found ')
+    }
+
     if (!title || !content) {
       throw new Error('title and content are necessary')
     }

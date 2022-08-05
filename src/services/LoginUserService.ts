@@ -6,7 +6,7 @@ import bcrypt from 'bcrypt'
 export class LoginUserService {
   constructor(private userRepository: IUsersRepository) {}
 
-  async execute(name, email, password) {
+  async execute(name:string, email:string, password:string) {
     if (!name || !email || !password) {
       throw new Error('All fields are necessary')
     }

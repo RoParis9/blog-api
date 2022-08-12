@@ -3,9 +3,14 @@ import { IUsersRepository } from '../repositories/interfaces/IUserRepository'
 export class DeleteUserService {
   constructor(private userRepository: IUsersRepository) {}
 
-  async execute(id: string): Promise<void> {
+  async execute(id: string, userId:string): Promise<void> {
+
     if (!id) {
       throw new Error('id is necessary to delete This User')
+    }
+
+    if(id!==userId){
+      throw new Error("you are not allowed to delete this user ")
     }
 
     const user = await this.userRepository.find(id)

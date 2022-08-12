@@ -25,8 +25,5 @@ CREATE TABLE "post" (
 -- CreateIndex
 CREATE UNIQUE INDEX "user_email_key" ON "user"("email");
 
--- CreateIndex
-CREATE UNIQUE INDEX "post_title_key" ON "post"("title");
-
 -- AddForeignKey
 ALTER TABLE "post" ADD CONSTRAINT "post_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

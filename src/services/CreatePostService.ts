@@ -5,18 +5,12 @@ export class CreatePostService {
     private postRepository: IPostRepository,
   ) {}
 
-  async execute(title: string, content: string, author: string) {
+  async execute(author:string,title: string, content: string) {
     if (!title || !content) {
       throw new Error('title and content are required')
     }
 
-    const existPost = await this.postRepository.findOne(title)
-
-    if (existPost) {
-      throw new Error('this post already exist, has to be a different title')
-    }
-
-    const newPost = await this.postRepository.create(title, content, author)
+    const newPost = await this.postRepository.create(title,content,author)
 
     return newPost
   }

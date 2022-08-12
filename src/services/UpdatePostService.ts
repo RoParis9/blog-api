@@ -3,7 +3,7 @@ import { IPostRepository } from '../repositories/interfaces/IPostRepository'
 export class UpdatePostService {
   constructor(private postRepository: IPostRepository) {}
 
-  async execute(title: string, content: string) {
+  async execute(id:string,title: string, content: string) {
     const post = this.postRepository.findOne(title)
     
     if(!post){

@@ -21,7 +21,11 @@ export class CreateUserService{
 
     const user = await this.userRepository.create(name,email,hashPassword)
 
-    return user
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email
+    }
 
   }
 }

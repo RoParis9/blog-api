@@ -21,11 +21,6 @@ class UsersRepository implements IUsersRepository {
     })
     return user
   }
-  async findAll():Promise<User[]>{
-    const user = await database.user.findMany()
-
-    return user
-  }
   async findEmail(email: string): Promise<User | null> {
     const user = await database.user.findUnique({
       where: {
@@ -34,14 +29,15 @@ class UsersRepository implements IUsersRepository {
     })
     return user
   }
-  async update(name: string, email: string): Promise<User> {
+  async update(id:string,name: string, email: string, password:string): Promise<User> {
     const user = await database.user.update({
       where: {
-        email: email,
+        id:id,
       },
       data: {
         name: name,
         email: email,
+        password: password,
       },
     })
     return user

@@ -1,25 +1,30 @@
 import { IUsersRepository } from '../repositories/interfaces/IUserRepository'
-
+import bcrypt from 'bcrypt'
 export class UpdateUserService {
-  constructor(private userRepository: IUsersRepository) {}
+  constructor(private userRepository: IUsersRepository) { }
 
-  async execute(name: string, email: string, id: string) {
+  async execute(name: string, email: string, id: string, password: string) {
     const user = await this.userRepository.find(id)
 
     if (!user) {
       throw new Error('User not found')
     }
 
-    if (email !== user.email) {
-      const verifyEmail = await this.userRepository.findEmail(email)
+    const emailInUse = await this.userRepository.findEmail(email)
 
-      if (verifyEmail) {
-        throw new Error('E-mail already used')
-      }
+    if (emailInUse) {
+      throw new Error("this email is already in use")
     }
+    const hashPassword = await bcrypt.hash(password, 10)
 
-    const newUser = await this.userRepository.update(name, email)
+    const newUser = await this.userRepository.update(id, name, email, hashPassword)
+    
 
-    return newUser
+    return {
+      id: newUser.id,
+      name: newUser.name,
+      email: newUser.email,
+
+    }
   }
 }

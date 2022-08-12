@@ -7,17 +7,7 @@ class PostRepository implements IPostRepository {
     const posts = await database.post.findMany()
     return posts
   }
-    //fix author problem
-  async create(author: string, title: string, content: string): Promise<Post> {
-    const post = await database.post.create({
-      data: {
-        author,
-        title,
-        content,
-      },
-    })
-    return post
-  }
+ 
   async findOne(title: string): Promise<Post | null> {
     const post = await database.post.findFirstOrThrow({
       where: {
@@ -35,14 +25,20 @@ class PostRepository implements IPostRepository {
     })
   }
 
-  async update(title: string, content: string): Promise<Post> {
+  async update(id:string,title: string, content: string): Promise<Post> {
     const post = await database.post.update({
-      where: {
-        title,
-      },
+      where: {id},
       data: {
+        title,
         content,
       },
+    })
+    return post
+  }
+
+  async create(author:string,title:string,content:string):Promise<Post>{
+    const post = await database.post.create({
+      data:{title,content,authorId:author},
     })
     return post
   }

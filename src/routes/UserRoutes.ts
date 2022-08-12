@@ -10,4 +10,4 @@ userRoutes.post('/register', userController.create)
 userRoutes.post('/login', userController.login)
 userRoutes.delete('/user/delete/:id', AuthMiddleware, userController.delete)
 userRoutes.put('/user/update/:id', AuthMiddleware, userController.update)
-userRoutes.get('/users',userController.GetUsers)
+

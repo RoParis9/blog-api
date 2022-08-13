@@ -4,13 +4,14 @@ import { database } from '../database'
 
 class PostRepository implements IPostRepository {
   async findAll(): Promise<Post[]> {
-    return await database.$queryRaw`SELECT * FROM Post`
+    const posts = await database.post.findMany()
+    return posts
   }
  
-  async findOne(id:number): Promise<Post | null> {
+  async findOne(title:string): Promise<Post | null> {
     const post = await database.post.findFirstOrThrow({
       where: {
-        id,
+        title,
       },
     })
     return post

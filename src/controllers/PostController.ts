@@ -8,21 +8,22 @@ import { UpdatePostService } from "../services/UpdatePostService";
 
 export class PostController{
   async delete(req:Request,res:Response){
-    const id = req.params.id
+    const id = parseInt(req.params.id)
+    const {title} = req.body
 
     const deletePost = new DeletePostService(PostRepository)
 
-    await deletePost.execute(id)
+    await deletePost.execute(id,title)
     
     return res.status(200).json({message:"deleted!"})
 
   }
   async readOnePost(req:Request,res:Response){
-    const id = req.params.id
+    const {title} = req.body
 
     const findOnePost = new ReadPostService(PostRepository)
 
-    const OnePost = await findOnePost.execute(id)
+    const OnePost = await findOnePost.execute(title)
     
     return res.status(200).json(OnePost)
   }
@@ -36,7 +37,7 @@ export class PostController{
   }
   async updatePost(req:Request,res:Response){
     const {title,content} = req.body
-    const id = req.params.id
+    const id = parseInt(req.params.id)
 
     const updatePost = new UpdatePostService(PostRepository)
 

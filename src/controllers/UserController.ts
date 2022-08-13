@@ -35,7 +35,7 @@ export class UserController {
   // need to fix
   async delete(req: Request, res: Response) {
     try{
-    const id  = req.params.id
+    const id = parseInt(req.params.id)
     const userId = req.userId
 
     const deleteUserService = new DeleteUserService(UsersRepository)
@@ -51,7 +51,8 @@ export class UserController {
   // need to fix
   async update(req: Request, res: Response) {
     const {name,email,password} = req.body
-    const id = req.
+    const id = parseInt(req.params.id)
+    console.log(id)
 
     const updateUser = new UpdateUserService(UsersRepository)
 

@@ -2,13 +2,13 @@ import { IPostRepository } from '../repositories/interfaces/IPostRepository'
 
 export class ReadPostService {
   constructor(private postService: IPostRepository) {}
-  async execute(title: string) {
+  async execute(id:number) {
     
-    if (!title) {
-      throw new Error('post title is necessary')
+    if (!id) {
+      throw new Error('post id is necessary')
     }
 
-    const singlePost = await this.postService.findOne(title)
+    const singlePost = await this.postService.findOne(id)
 
     return singlePost
   }

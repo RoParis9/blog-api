@@ -32,9 +32,10 @@ export class UserController {
       return res.status(500).json({message:'can`t create this user'})
     }
   }
+  // need to fix
   async delete(req: Request, res: Response) {
     try{
-    const { id } = req.params
+    const id  = req.params.id
     const userId = req.userId
 
     const deleteUserService = new DeleteUserService(UsersRepository)
@@ -47,19 +48,20 @@ export class UserController {
       return res.status(401).json({message: 'you are not allowed to delete this user or user doesn`t exist'})
     }
   }
+  // need to fix
   async update(req: Request, res: Response) {
-    try{     
-    const { id } = req.params
+    const {name,email,password} = req.body
+    const id = req.
 
-    const { name, email,password } = req.body
+    const updateUser = new UpdateUserService(UsersRepository)
 
-    const updateService = new UpdateUserService(UsersRepository)
+    const newUser = await updateUser.execute(id,name,email,password)
 
-    const newUser = await updateService.execute(name, email, id, password)
-
-    return res.status(200).json(newUser)
-    }catch(err){
-      return res.status(401).json({message: err})
-    }
-  }
+    return res.status(200).json({
+      id: newUser.id,
+      name: newUser.name,
+      email: newUser.email
+    }) 
+       
+}
 }

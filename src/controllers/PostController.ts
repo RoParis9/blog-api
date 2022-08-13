@@ -5,36 +5,38 @@ import { DeletePostService } from "../services/DeletePostService";
 import { ReadAllPostsService } from "../services/ReadAllPostsService";
 import { ReadPostService } from "../services/ReadPostService";
 import { UpdatePostService } from "../services/UpdatePostService";
+
 export class PostController{
   async delete(req:Request,res:Response){
-    const {id} = req.body
+    const id = req.params.id
 
     const deletePost = new DeletePostService(PostRepository)
 
     await deletePost.execute(id)
-
+    
     return res.status(200).json({message:"deleted!"})
 
   }
   async readOnePost(req:Request,res:Response){
-    const {title} = req.body
+    const id = req.params.id
 
-    const readPost = new ReadPostService(PostRepository)
+    const findOnePost = new ReadPostService(PostRepository)
+
+    const OnePost = await findOnePost.execute(id)
     
-    const selectedPost = await readPost.execute(title)
-
-    return res.status(200).json(selectedPost)
+    return res.status(200).json(OnePost)
   }
   async readAllPosts(req:Request,res:Response){
-    const readAllPost = new ReadAllPostsService(PostRepository)
-    
-    await readAllPost.execute()
+    const getAllPosts = new ReadAllPostsService(PostRepository)
+  
+    const allPosts = await getAllPosts.execute()
 
-    return res.status(200).json(readAllPost)
+    return res.status(200).json(allPosts)
+
   }
   async updatePost(req:Request,res:Response){
     const {title,content} = req.body
-    const {id} = req.params
+    const id = req.params.id
 
     const updatePost = new UpdatePostService(PostRepository)
 
@@ -46,13 +48,14 @@ export class PostController{
   async create(req:Request,res:Response){
     try{    
     const {title,content} = req.body
-    const author = req.userId
+    const userId = req.userId
 
     const createPost = new CreatePostService(PostRepository)
 
-    const postCreated = await createPost.execute(title,content,author)
+    const postCreated = await createPost.execute(userId,title,content)
 
     return res.status(200).json(postCreated) 
+    
     }catch(err){
       return res.status(500).json(err)
     }

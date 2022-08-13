@@ -3,8 +3,7 @@ import 'dotenv/config'
 import jwt from 'jsonwebtoken'
 
 interface TokenPayload{
-  email:string;
-  id:string;
+  id:number;
   iat:number;
   exp:number;
 }
@@ -24,8 +23,7 @@ export function AuthMiddleware(
   try {
     const data = jwt.verify(token, process.env.SECRET)
 
-    const {id,email} = data as TokenPayload
-    req.email = email
+    const {id} = data as TokenPayload
     req.userId = id
     
     return next()

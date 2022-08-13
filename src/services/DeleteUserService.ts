@@ -3,7 +3,7 @@ import { IUsersRepository } from '../repositories/interfaces/IUserRepository'
 export class DeleteUserService {
   constructor(private userRepository: IUsersRepository) {}
 
-  async execute(id: string, userId:string): Promise<void> {
+  async execute(id: number, userId:number): Promise<void> {
 
     if (!id) {
       throw new Error('id is necessary to delete This User')

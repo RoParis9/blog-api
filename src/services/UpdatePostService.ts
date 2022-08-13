@@ -3,7 +3,8 @@ import { IPostRepository } from '../repositories/interfaces/IPostRepository'
 export class UpdatePostService {
   constructor(private postRepository: IPostRepository) {}
 
-  async execute(id:string,title: string, content: string) {
+  async execute(id:number,title: string, content: string) {
+    
     const post = this.postRepository.findOne(title)
     
     if(!post){
@@ -13,7 +14,7 @@ export class UpdatePostService {
     if (!title || !content) {
       throw new Error('title and content are necessary')
     }
-    const updatedPost = await this.postRepository.update(title, content)
+    const updatedPost = await this.postRepository.update(id,title, content)
 
     return updatedPost
   }

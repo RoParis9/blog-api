@@ -1,23 +1,22 @@
 import { IPostRepository } from './interfaces/IPostRepository'
-import { Post } from '@prisma/client'
+import { Post} from '@prisma/client'
 import { database } from '../database'
 
 class PostRepository implements IPostRepository {
   async findAll(): Promise<Post[]> {
-    const posts = await database.post.findMany()
-    return posts
+    return await database.$queryRaw`SELECT * FROM Post`
   }
  
-  async findOne(title: string): Promise<Post | null> {
+  async findOne(id:number): Promise<Post | null> {
     const post = await database.post.findFirstOrThrow({
       where: {
-        title,
+        id,
       },
     })
     return post
   }
 
-  async deleteOne(id: string): Promise<void> {
+  async deleteOne(id: number): Promise<void> {
     await database.post.delete({
       where: {
         id,
@@ -25,7 +24,7 @@ class PostRepository implements IPostRepository {
     })
   }
 
-  async update(id:string,title: string, content: string): Promise<Post> {
+  async update(id:number,title: string, content: string): Promise<Post> {
     const post = await database.post.update({
       where: {id},
       data: {
@@ -35,12 +34,16 @@ class PostRepository implements IPostRepository {
     })
     return post
   }
-
-  async create(author:string,title:string,content:string):Promise<Post>{
+  async create(userId:number,title:string,content:string):Promise<Post | void>{
     const post = await database.post.create({
-      data:{title,content,authorId:author},
+      data:{
+        title,
+        content,
+        author:{connect:{id:userId}}
+      }
     })
     return post
   }
+  
 }
 export default new PostRepository()

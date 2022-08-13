@@ -1,9 +1,9 @@
-import { Post } from '@prisma/client'
+import { Post} from '@prisma/client'
 
 export interface IPostRepository {
   findAll(): Promise<Post[]>
-  findOne(title: string): Promise<Post | null>
-  create(author:string,title: string, content: string): Promise<Post>
-  deleteOne(id: string): Promise<void>
-  update(id:string,title: string, content?: string): Promise<Post>
+  findOne(id:number): Promise<Post | null>
+  create(userId:number,title: string, content: string): Promise<Post | void>
+  deleteOne(id: number): Promise<void>
+  update(id:number,title: string, content: string): Promise<Post>
 }

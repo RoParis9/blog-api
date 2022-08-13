@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt'
 export class UpdateUserService {
   constructor(private userRepository: IUsersRepository) { }
 
-  async execute(name: string, email: string, id: string, password: string) {
+  async execute(id:number,name: string, email: string, password: string) {
     const user = await this.userRepository.find(id)
 
     if (!user) {
@@ -15,6 +15,7 @@ export class UpdateUserService {
     if (emailInUse) {
       throw new Error("this email is already in use")
     }
+    
     const hashPassword = await bcrypt.hash(password, 10)
 
     const newUser = await this.userRepository.update(id, name, email, hashPassword)
@@ -24,7 +25,6 @@ export class UpdateUserService {
       id: newUser.id,
       name: newUser.name,
       email: newUser.email,
-
     }
   }
 }

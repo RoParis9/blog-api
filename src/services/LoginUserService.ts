@@ -23,7 +23,7 @@ export class LoginUserService {
       throw new Error('Email or Password Invalid!')
     }
 
-    const token = jwt.sign({ id: user.id }, process.env.SECRET, {
+    const token = jwt.sign({ id: user.id}, process.env.SECRET, {
       expiresIn: '1d',
     })
 

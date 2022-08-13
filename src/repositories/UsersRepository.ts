@@ -13,11 +13,13 @@ class UsersRepository implements IUsersRepository {
     })
     return user
   }
-  async find(id: string): Promise<User | null> {
-    const user = await database.user.findUnique({
-      where: {
-        id,
-      },
+
+  async find(id: number): Promise<User | null> {
+    const user = await database.user.findUniqueOrThrow({
+      where:{
+        id
+      }
+      
     })
     return user
   }
@@ -29,7 +31,7 @@ class UsersRepository implements IUsersRepository {
     })
     return user
   }
-  async update(id:string,name: string, email: string, password:string): Promise<User> {
+  async update(id:number,name: string, email: string, password:string): Promise<User> {
     const user = await database.user.update({
       where: {
         id:id,
@@ -42,7 +44,7 @@ class UsersRepository implements IUsersRepository {
     })
     return user
   }
-  async delete(id: string): Promise<void> {
+  async delete(id: number): Promise<void> {
     await database.user.delete({
       where: {
         id,
